@@ -1,0 +1,26 @@
+{
+    "name": "appolo-class",
+    "description": "class system for node js",
+
+    "keywords": [
+    ],
+    "author": {
+        "name": "Roman Svichar",
+        "email": "shmoop207@gmail.com"
+    },
+    "main": "./index.js",
+
+    "version": "0.1.0",
+    "license": "Mit",
+
+    "readme": "",
+    "readmeFilename": "README.md",
+    "dependencies": {
+        "lodash": "2.4.1"
+    },
+    "devDependencies": {
+        "chai":"1.8.1",
+        "grunt":"*",
+        "grunt-mocha-test":"0.8.1"
+    }
+}
