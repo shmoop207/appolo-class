@@ -10,9 +10,12 @@
     },
     "main": "./index.js",
 
-    "version": "0.1.0",
+    "version": "0.1.1",
     "license": "Mit",
-
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/shmoop207/appolo-class"
+    },
     "readme": "",
     "readmeFilename": "README.md",
     "dependencies": {

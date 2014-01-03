@@ -1,2 +1,2 @@
-module.exports.Class = require('./lib/class');
+module.exports = require('./lib/class');
 
