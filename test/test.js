@@ -22,7 +22,7 @@ describe('Class', function () {
 
             var Rectangle = Class.define({
 
-                config: {
+                $config: {
                     test: 'aa'
                 },
 
@@ -74,7 +74,7 @@ describe('Class', function () {
 
             var Square = Class.define({
 
-                config: {
+                $config: {
                     extends: Rectangle
                 },
 
@@ -108,7 +108,7 @@ describe('Class', function () {
 
             var Square = Class.define({
 
-                config: {
+                $config: {
                     extends: Rectangle
                 },
 
@@ -120,7 +120,7 @@ describe('Class', function () {
 
             var Cube = Class.define({
 
-                config: {
+                $config: {
                     extends: Square
                 },
 
@@ -151,7 +151,7 @@ describe('Class', function () {
         it('should crate class with statics', function () {
 
             var Rectangle = Class.define({
-                config: {
+                $config: {
                     statics: {
                         MIN_SIDE: 1,
                         MAX_SIDE: 150
@@ -190,7 +190,7 @@ describe('Class', function () {
             });
 
             var Rectangle = Class.define({
-                config: {
+                $config: {
                     mixins: [Events]
                 },
 
