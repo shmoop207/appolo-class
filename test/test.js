@@ -209,4 +209,54 @@ describe('Class', function () {
             rectangle.bind().should.true;
         });
     });
-})
+
+
+    describe('create 2 class with overrides', function () {
+
+        it('should crate 2 class without overrides', function () {
+
+            var Events = Class.define({
+
+                constructor:function(){},
+
+                bind: function(event, fn) {
+                    return true;
+                },
+                unbind: function(event, fn) {
+                    return true;
+                }
+            });
+
+            var Rectangle1 = Class.define({
+                $config: {
+                    extends: [Events]
+                },
+
+
+
+                area: function () {
+                    return 1;
+                }
+            });
+
+            var Rectangle2 = Class.define({
+                $config: {
+                    extends: [Events]
+                },
+
+
+
+                area: function () {
+                    return 2;
+                }
+            });
+
+            var rectangle1 = new Rectangle1();
+            var rectangle2 = new Rectangle2();
+
+            console.log(rectangle1.area())
+            console.log(rectangle2.area())
+
+        });
+    });
+});
