@@ -146,6 +146,73 @@ describe('Class', function () {
         });
     });
 
+
+    describe('create third class call parent methods test', function () {
+
+        it('should parents methods', function () {
+
+            var Rectangle = Class.define({
+
+                constructor: function (width, height) {
+                    this.height = height;
+                    this.width = width;
+                },
+
+                area: function () {
+                    return this.width * this.height;
+                }
+            });
+
+            var Square = Class.define({
+
+                $config: {
+                    extends: Rectangle
+                },
+
+                constructor: function (side) {
+
+                    this.multi = 2;
+
+                    this.callParent('constructor', side, side);
+
+
+                },
+
+                area:function(){
+
+                    return  this.multi* this.callParent('area')
+                }
+            });
+
+
+            var Cube = Class.define({
+
+                $config: {
+                    extends: Square
+                },
+
+                constructor: function (side) {
+                    this.callParent('constructor', side);
+
+                    this.side = side;
+                },
+
+                area: function () {
+                    return 6 * this.callParent('area')
+                },
+
+                volume: function () {
+                    return this.side * this.callParent('area')
+                }
+            });
+
+            var cube = new Cube(5);
+
+            cube.area().should.equal(300);
+            cube.volume().should.equal(250);
+        });
+    });
+
     describe('create class with statics', function () {
 
         it('should crate class with statics', function () {
@@ -206,18 +273,20 @@ describe('Class', function () {
 
             var rectangle = new Rectangle(5, 5);
             rectangle.bind().should.true;
-            rectangle.bind().should.true;
+            rectangle.unbind().should.true;
         });
     });
 
-
-    describe('create 2 class with overrides', function () {
-
-        it('should crate 2 class without overrides', function () {
+    describe('create  class with empty  constructor and call parent constructor', function () {
+        it('should call parent constructor ', function () {
 
             var Events = Class.define({
 
-                constructor:function(){},
+                constructor:function(name){
+
+                    this.name = name || "events";
+
+                },
 
                 bind: function(event, fn) {
                     return true;
@@ -229,34 +298,123 @@ describe('Class', function () {
 
             var Rectangle1 = Class.define({
                 $config: {
-                    extends: [Events]
+                    extends: Events
+                },
+
+
+                area: function () {
+
+                    return 1;
+                }
+            });
+
+            var rectangle1 = new Rectangle1();
+
+            rectangle1.name.should.equal("events");
+
+        });
+    });
+
+
+    describe('create 2 class with overrides', function () {
+
+        it('should crate 2 class without overrides', function () {
+
+            var Events = Class.define({
+
+                constructor:function(name){
+
+                    this.name = name || "events";
+
+                },
+
+                bind: function(event, fn) {
+                    return true;
+                },
+                unbind: function(event, fn) {
+                    return true;
+                }
+            });
+
+            var Rectangle1 = Class.define({
+                $config: {
+                    extends: Events
                 },
 
 
 
                 area: function () {
+
                     return 1;
                 }
             });
 
             var Rectangle2 = Class.define({
                 $config: {
-                    extends: [Events]
+                    extends: Events
                 },
 
+                constructor:function(){
 
+                    this.callParent('constructor','rectangle2');
+
+                },
 
                 area: function () {
                     return 2;
                 }
+
             });
 
             var rectangle1 = new Rectangle1();
             var rectangle2 = new Rectangle2();
 
-            console.log(rectangle1.area())
-            console.log(rectangle2.area())
+            rectangle1.name.should.equal("events");
 
+            rectangle2.name.should.equal("rectangle2");
+
+            rectangle1.area().should.equal(1);
+            rectangle2.area().should.equal(2);
+
+        });
+    });
+
+    describe('create from parent define', function () {
+        it('should create class from parent define', function () {
+            var Events = Class.define({
+
+                constructor:function(name){
+
+                    this.name = name || "events";
+
+                },
+
+                bind: function(event, fn) {
+                    return true;
+                },
+                unbind: function(event, fn) {
+                    return true;
+                }
+            });
+
+            var Rectangle = Events.define({
+
+                constructor: function (width, height) {
+                    this.height = height;
+                    this.width = width;
+
+                    this.callParent("constructor");
+                },
+
+                area: function () {
+                    return this.width * this.height;
+                }
+            });
+
+            var rectangle = new Rectangle(5, 5);
+            rectangle.bind().should.true;
+            rectangle.unbind().should.true;
+            rectangle.name.should.equal("events");
         });
     });
 });
