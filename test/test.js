@@ -113,7 +113,7 @@ describe('Class', function () {
                 },
 
                 constructor: function (side) {
-                    this.callParent('constructor', side, side);
+                    this.callParent( side, side);
                 }
             });
 
@@ -125,17 +125,17 @@ describe('Class', function () {
                 },
 
                 constructor: function (side) {
-                    this.callParent('constructor', side);
+                    this.callParent( side);
 
                     this.side = side;
                 },
 
                 area: function () {
-                    return 6 * this.callParent('area')
+                    return 6 * this.callParent("area")
                 },
 
                 volume: function () {
-                    return this.side * this.callParent('area')
+                    return this.side * 5 * 5;
                 }
             });
 
@@ -173,14 +173,14 @@ describe('Class', function () {
 
                     this.multi = 2;
 
-                    this.callParent('constructor', side, side);
+                    this.callParent( side, side);
 
 
                 },
 
                 area:function(){
 
-                    return  this.multi* this.callParent('area')
+                    return  this.multi* this.callParent()
                 }
             });
 
@@ -192,17 +192,17 @@ describe('Class', function () {
                 },
 
                 constructor: function (side) {
-                    this.callParent('constructor', side);
+                    this.callParent( side);
 
                     this.side = side;
                 },
 
                 area: function () {
-                    return 6 * this.callParent('area')
+                    return 6 * this.callParent()
                 },
 
                 volume: function () {
-                    return this.side * this.callParent('area')
+                    return this.side * 5*5*this.multi;
                 }
             });
 
@@ -356,7 +356,7 @@ describe('Class', function () {
 
                 constructor:function(){
 
-                    this.callParent('constructor','rectangle2');
+                    this.callParent('rectangle2');
 
                 },
 
@@ -403,7 +403,7 @@ describe('Class', function () {
                     this.height = height;
                     this.width = width;
 
-                    this.callParent("constructor");
+                    this.callParent();
                 },
 
                 area: function () {
@@ -417,4 +417,49 @@ describe('Class', function () {
             rectangle.name.should.equal("events");
         });
     });
+
+
+    describe('create 2 classes from inherit', function () {
+        it('should 2 different classes', function () {
+
+            var Position = Class.define({
+
+                constructor:function(symbol,amount,side){
+
+                    this.symbol =  symbol;
+                    this.amount =  amount;
+                    this.side = side;
+
+                }
+            });
+
+            var Long = Position.define({
+
+                constructor: function (symbol, amount) {
+                    Position.call(this, symbol,amount,2);
+                }
+            });
+
+            var Short = Position.define({
+
+                constructor: function (symbol, amount) {
+
+                    Position.call(this, symbol,amount,2);
+                }
+            });
+
+
+            var long = new Long("AAPL", 5);
+            var short = new Short("GOOG", 2);
+
+
+            long.symbol.should.equal("AAPL");
+            short.symbol.should.equal("GOOG");
+
+            long.amount.should.equal(5);
+            short.amount.should.equal(2);
+        });
+    });
+
+
 });
