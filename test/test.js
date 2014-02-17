@@ -131,7 +131,7 @@ describe('Class', function () {
                 },
 
                 area: function () {
-                    return 6 * this.callParent("area")
+                    return 6 * this.callParent()
                 },
 
                 volume: function () {
