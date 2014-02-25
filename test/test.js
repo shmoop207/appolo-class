@@ -113,7 +113,7 @@ describe('Class', function () {
                 },
 
                 constructor: function (side) {
-                    this.callParent( side, side);
+                    this.callParent(side, side);
                 }
             });
 
@@ -125,7 +125,7 @@ describe('Class', function () {
                 },
 
                 constructor: function (side) {
-                    this.callParent( side);
+                    this.callParent(side);
 
                     this.side = side;
                 },
@@ -173,14 +173,14 @@ describe('Class', function () {
 
                     this.multi = 2;
 
-                    this.callParent( side, side);
+                    this.callParent(side, side);
 
 
                 },
 
-                area:function(){
+                area: function () {
 
-                    return  this.multi* this.callParent()
+                    return  this.multi * this.callParent()
                 }
             });
 
@@ -192,7 +192,7 @@ describe('Class', function () {
                 },
 
                 constructor: function (side) {
-                    this.callParent( side);
+                    this.callParent(side);
 
                     this.side = side;
                 },
@@ -202,7 +202,7 @@ describe('Class', function () {
                 },
 
                 volume: function () {
-                    return this.side * 5*5*this.multi;
+                    return this.side * 5 * 5 * this.multi;
                 }
             });
 
@@ -248,10 +248,10 @@ describe('Class', function () {
         it('should crate class with mixin', function () {
 
             var Events = Class.define({
-                bind: function(event, fn) {
+                bind: function (event, fn) {
                     return true;
                 },
-                unbind: function(event, fn) {
+                unbind: function (event, fn) {
                     return true;
                 }
             });
@@ -282,16 +282,16 @@ describe('Class', function () {
 
             var Events = Class.define({
 
-                constructor:function(name){
+                constructor: function (name) {
 
                     this.name = name || "events";
 
                 },
 
-                bind: function(event, fn) {
+                bind: function (event, fn) {
                     return true;
                 },
-                unbind: function(event, fn) {
+                unbind: function (event, fn) {
                     return true;
                 }
             });
@@ -322,16 +322,16 @@ describe('Class', function () {
 
             var Events = Class.define({
 
-                constructor:function(name){
+                constructor: function (name) {
 
                     this.name = name || "events";
 
                 },
 
-                bind: function(event, fn) {
+                bind: function (event, fn) {
                     return true;
                 },
-                unbind: function(event, fn) {
+                unbind: function (event, fn) {
                     return true;
                 }
             });
@@ -340,7 +340,6 @@ describe('Class', function () {
                 $config: {
                     extends: Events
                 },
-
 
 
                 area: function () {
@@ -354,7 +353,7 @@ describe('Class', function () {
                     extends: Events
                 },
 
-                constructor:function(){
+                constructor: function () {
 
                     this.callParent('rectangle2');
 
@@ -383,16 +382,16 @@ describe('Class', function () {
         it('should create class from parent define', function () {
             var Events = Class.define({
 
-                constructor:function(name){
+                constructor: function (name) {
 
                     this.name = name || "events";
 
                 },
 
-                bind: function(event, fn) {
+                bind: function (event, fn) {
                     return true;
                 },
-                unbind: function(event, fn) {
+                unbind: function (event, fn) {
                     return true;
                 }
             });
@@ -424,10 +423,10 @@ describe('Class', function () {
 
             var Position = Class.define({
 
-                constructor:function(symbol,amount,side){
+                constructor: function (symbol, amount, side) {
 
-                    this.symbol =  symbol;
-                    this.amount =  amount;
+                    this.symbol = symbol;
+                    this.amount = amount;
                     this.side = side;
 
                 }
@@ -436,7 +435,7 @@ describe('Class', function () {
             var Long = Position.define({
 
                 constructor: function (symbol, amount) {
-                    Position.call(this, symbol,amount,2);
+                    this.callParent(symbol, amount, 2);
                 }
             });
 
@@ -444,7 +443,7 @@ describe('Class', function () {
 
                 constructor: function (symbol, amount) {
 
-                    Position.call(this, symbol,amount,2);
+                    this.callParent(symbol, amount, 2);
                 }
             });
 
@@ -459,6 +458,138 @@ describe('Class', function () {
             long.amount.should.equal(5);
             short.amount.should.equal(2);
         });
+    });
+
+
+    describe('namespace', function () {
+        it('should create namespace and constractor name', function () {
+
+            var Position = Class.define('Test.Position.Base', {
+
+                constructor: function (symbol, amount, side) {
+
+                    this.symbol = symbol;
+                    this.amount = amount;
+                    this.side = side;
+
+                }
+            });
+
+            var Long = Position.define('Test.Position.Long', {
+
+                constructor: function (symbol, amount) {
+                    this.callParent( symbol, amount, 2);
+                }
+            });
+
+            var Short = Position.define("Test.Position.Short", {
+
+                constructor: function (symbol, amount) {
+
+                    this.callParent(symbol, amount, 2);
+                }
+            });
+
+            should.exist(Test.Position.Short);
+            should.exist(Test.Position.Long);
+
+            var short = new Test.Position.Short();
+            var long = new Test.Position.Long();
+
+            short.constructor.name.should.equal("Test_Position_Short");
+            long.constructor.name.should.equal("Test_Position_Long");
+
+            GLOBAL.Test.Position.Short =null;
+            GLOBAL.Test.Position.Long =null;
+        });
+
+
+        it('should have contractor name', function () {
+
+            var Position = Class.define({
+
+                constructor: function (symbol, amount, side) {
+
+                    this.symbol = symbol;
+                    this.amount = amount;
+                    this.side = side;
+
+                }
+            });
+
+            var Long = Position.define({
+                $config: {
+                    name: "long"
+                },
+
+                constructor: function (symbol, amount) {
+                    this.callParent( symbol, amount, 2);
+                }
+            });
+
+            var Short = Position.define({
+                $config: {
+                    name: "short"
+                },
+                constructor: function (symbol, amount) {
+
+                    this.callParent(symbol, amount, 2);
+                }
+            });
+
+
+            var short = new Short();
+            var long = new Long();
+
+            short.constructor.name.should.equal("short");
+            long.constructor.name.should.equal("long");
+        });
+
+        it('should have create namespace from config and contractor name', function () {
+
+            var Position = Class.define({
+
+                constructor: function (symbol, amount, side) {
+
+                    this.symbol = symbol;
+                    this.amount = amount;
+                    this.side = side;
+
+                }
+            });
+
+            var Long = Position.define({
+                $config: {
+                    name: "long",
+                    namespace:'Test.Position.Long'
+                },
+
+                constructor: function (symbol, amount) {
+                    this.callParent( symbol, amount, 2);
+                }
+            });
+
+            var Short = Position.define({
+                $config: {
+                    name: "short",
+                    namespace:'Test.Position.Short'
+                },
+                constructor: function (symbol, amount) {
+
+                    this.callParent(symbol, amount, 2);
+                }
+            });
+
+            var short = new Test.Position.Short();
+            var long = new Long();
+
+            short.constructor.name.should.equal("short");
+            long.constructor.name.should.equal("long");
+
+            GLOBAL.Test.Position.Short =null;
+            GLOBAL.Test.Position.Long =null;
+        });
+
     });
 
 
