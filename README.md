@@ -64,7 +64,7 @@ var square = new Square(6);
 
 console.log(square.area()) // 36
 ```
-you can also use class.define fucntion
+you can also use `Class.define` fucntion
 ```javascript
 var Rectangle = Class.define({
 
@@ -89,8 +89,8 @@ var square = new Square(6);
 console.log(square.area()) // 36
 ```
 
-### CallParent Method ###
-use this.callParent function to call the parent method
+### Call Parent ###
+use `this.callParent` function to call the parent method
 ```javascript
 var Rectangle = Class.define({
 
@@ -124,7 +124,7 @@ var Cube = Square.define({
     },
 
     volume: function () {
-        return this.side * 5 * 5;
+        return Math.pow(this.side,3);
     }
 });
 
@@ -193,7 +193,7 @@ rectangle.unbind('test',function(){})
 ### Namespace ###
 create class on the global scope global scope
 ```javascript
-var Position = Class.define('Test.Position.Base', {
+Class.define('Test.Position.Base', {
 
     constructor: function (symbol, amount, side) {
 
@@ -203,14 +203,14 @@ var Position = Class.define('Test.Position.Base', {
     }
 });
 
-var Long = Position.define('Test.Position.Long', {
+Position.define('Test.Position.Long', {
 
     constructor: function (symbol, amount) {
         this.callParent( symbol, amount, 2);
     }
 });
 
-var Short = Position.define("Test.Position.Short", {
+Position.define("Test.Position.Short", {
 
     constructor: function (symbol, amount) {
 
@@ -261,6 +261,19 @@ var long = new Long();
 
 consloe.log(short.constructor.name) // short
 console.log(long.constructor.name) //long;
+```
+
+## Plugins ##
+you can your custom plugins to the class system by adding callback function
+the function will be called with 3 `arguments`
+ - `config` - config object of the class
+ - `klass` - class referance
+ - `parent` - parent class referance
+
+```javascript
+Class.addPlugin(function(config,klass,parent){
+    //do something
+});
 ```
 
 ## Tests ##
