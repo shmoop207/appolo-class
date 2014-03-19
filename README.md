@@ -7,7 +7,7 @@ Classical JavaScript inheritance pattern and full class system for nodejs.
 npm install appolo-class --save
 ```
 
-# Usage #
+## Usage ##
 ### creating simple class ###
 ```javascript
 var Rectangle = Class.define({
