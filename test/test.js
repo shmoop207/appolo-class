@@ -1,5 +1,10 @@
 var should = require('chai').should(),
-    Class = require('../lib/class')
+    Class = require('../lib/class'),
+    chai = require("chai"),
+    sinon = require("sinon"),
+    sinonChai = require("sinon-chai");
+
+chai.use(sinonChai);
 
 
 describe('Class', function () {
@@ -478,7 +483,7 @@ describe('Class', function () {
             var Long = Position.define('Test.Position.Long', {
 
                 constructor: function (symbol, amount) {
-                    this.callParent( symbol, amount, 2);
+                    this.callParent(symbol, amount, 2);
                 }
             });
 
@@ -499,8 +504,8 @@ describe('Class', function () {
             short.constructor.name.should.equal("Test_Position_Short");
             long.constructor.name.should.equal("Test_Position_Long");
 
-            GLOBAL.Test.Position.Short =null;
-            GLOBAL.Test.Position.Long =null;
+            GLOBAL.Test.Position.Short = null;
+            GLOBAL.Test.Position.Long = null;
         });
 
 
@@ -523,7 +528,7 @@ describe('Class', function () {
                 },
 
                 constructor: function (symbol, amount) {
-                    this.callParent( symbol, amount, 2);
+                    this.callParent(symbol, amount, 2);
                 }
             });
 
@@ -561,18 +566,18 @@ describe('Class', function () {
             var Long = Position.define({
                 $config: {
                     name: "long",
-                    namespace:'Test.Position.Long'
+                    namespace: 'Test.Position.Long'
                 },
 
                 constructor: function (symbol, amount) {
-                    this.callParent( symbol, amount, 2);
+                    this.callParent(symbol, amount, 2);
                 }
             });
 
             var Short = Position.define({
                 $config: {
                     name: "short",
-                    namespace:'Test.Position.Short'
+                    namespace: 'Test.Position.Short'
                 },
                 constructor: function (symbol, amount) {
 
@@ -586,9 +591,73 @@ describe('Class', function () {
             short.constructor.name.should.equal("short");
             long.constructor.name.should.equal("long");
 
-            GLOBAL.Test.Position.Short =null;
-            GLOBAL.Test.Position.Long =null;
+            GLOBAL.Test.Position.Short = null;
+            GLOBAL.Test.Position.Long = null;
         });
+
+    });
+
+    describe('properties', function () {
+        it('should create properties', function () {
+
+            var Position = Class.define({
+
+                $config: {
+                    members: ['symbol']
+                },
+
+                constructor: function (symbol, amount, side) {
+                    this._symbol = symbol;
+                    this.amount = amount;
+                    this.side = side;
+                },
+
+                getSymbol: function () {
+                    return this._symbol
+                },
+                setSymbol: function (value) {
+                    this._symbol = value;
+                }
+            });
+
+            var position = new Position("aapl");
+
+            position.symbol.should.be.eql("aapl");
+
+            position.symbol = "GOOG";
+
+            position.symbol.should.be.eql("GOOG");
+
+        });
+
+
+        it('should trow error when propery not implemented', function () {
+
+            var Position = Class.define({
+
+                $config: {
+                    members: ['symbol']
+                },
+
+                constructor: function (symbol, amount, side) {
+                    this._symbol = symbol;
+                    this.amount = amount;
+                    this.side = side;
+                }
+            });
+
+            var position = new Position("aapl");
+
+            (function() {
+                var symbol = position.symbol;
+            }).should.throw("not implemented getSymbol");
+
+            (function() {
+                position.symbol = "GOOG"
+            }).should.throw("not implemented setSymbol");
+
+        });
+
 
     });
 
