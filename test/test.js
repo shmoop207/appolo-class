@@ -610,13 +610,18 @@ describe('Class', function () {
                     this._symbol = symbol;
                     this.amount = amount;
                     this.side = side;
+
+                    this.numberOfSetCalles = 0;
+                    this.numberOfGetCalles = 0;
                 },
 
                 getSymbol: function () {
-                    return this._symbol
+                    this.numberOfGetCalles++;
+                    return this._symbol;
                 },
                 setSymbol: function (value) {
                     this._symbol = value;
+                    this.numberOfSetCalles++
                 }
             });
 
@@ -627,6 +632,10 @@ describe('Class', function () {
             position.symbol = "GOOG";
 
             position.symbol.should.be.eql("GOOG");
+
+            position.numberOfGetCalles.should.be.eql(2)
+            position.numberOfSetCalles.should.be.eql(1)
+
 
         });
 
