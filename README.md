@@ -1,4 +1,4 @@
-Appolo Class
+Appolo Class  [![Build Status](https://travis-ci.org/shmoop207/appolo-class.png?branch=master)](https://travis-ci.org/shmoop207/appolo-class) [![Dependencies status](https://david-dm.org/shmoop207/appolo-class.png)](https://david-dm.org/shmoop207/appolo-class)
 =======
 Classical JavaScript inheritance pattern and full class system for nodejs.
 
