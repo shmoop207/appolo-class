@@ -7,17 +7,20 @@
     "mixin"
     "statics"
     "properties"
-    "Constructor",
+    "constructor",
     "prototype",
     "inheritance",
-    "class inheritance"
+    "class inheritance",
+    "oop",
+    "object-oriented",
+    "klass"
   ],
   "author": {
     "name": "Roman Svichar",
     "email": "shmoop207@gmail.com"
   },
   "main": "./index.js",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "license": "Mit",
   "repository": {
     "type": "git",
