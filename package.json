@@ -12,8 +12,11 @@
     "inheritance",
     "class inheritance",
     "oop",
-    "object-oriented",
-    "klass"
+    "object oriented",
+    "klass",
+    "extends",
+    "implements",
+    "inherit"
   ],
   "author": {
     "name": "Roman Svichar",
