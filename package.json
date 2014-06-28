@@ -1,7 +1,17 @@
 {
   "name": "appolo-class",
-  "description": "class system for node js",
-  "keywords": [],
+  "description": "simple and powerful  class system for node js",
+  "keywords": [ 
+    "class",
+    "Class",
+    "mixin"
+    "statics"
+    "properties"
+    "Constructor",
+    "prototype",
+    "inheritance",
+    "class inheritance"
+  ],
   "author": {
     "name": "Roman Svichar",
     "email": "shmoop207@gmail.com"
