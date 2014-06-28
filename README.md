@@ -1,6 +1,6 @@
 Appolo Class  [![Build Status](https://travis-ci.org/shmoop207/appolo-class.png?branch=master)](https://travis-ci.org/shmoop207/appolo-class) [![Dependencies status](https://david-dm.org/shmoop207/appolo-class.png)](https://david-dm.org/shmoop207/appolo-class)
 =======
-Classical JavaScript inheritance pattern and full class system for nodejs.
+Simple and powerful class system for node js
 
 ## Installation ##
 ```javascript
@@ -191,7 +191,7 @@ rectangle.bind('test',function(){})
 rectangle.unbind('test',function(){})
 ```
 ### Namespace ###
-create class on the global scope global scope
+create class on the global scope
 ```javascript
 Class.define('Test.Position.Base', {
 
@@ -262,6 +262,40 @@ var long = new Long();
 consloe.log(short.constructor.name) // short
 console.log(long.constructor.name) //long;
 ```
+
+## Members (Properties)
+define properties with getter and setter functions.
+if a property in defined to be a member and a getter or setter is not implemented then erro will be trown
+
+```javascript
+var Rectangle = Class.define({
+    $config: {
+        members: ['area','name']
+    },
+    
+    constructor: function (width, height) {
+        this.height = height;
+        this.width = width;
+    },
+
+    getArea: function () {
+        return this.width * this.height;
+    },
+    getName:function(){
+        return this._name;
+    },
+     setName:function(value){
+        this._name = value;
+    }
+});
+
+var rectangle = new Rectangle(5, 5);
+console.log(rectangle.area) //25;
+
+rectangle.area = 10 // error not implemented
+
+```
+
 
 ## Plugins ##
 you can your custom plugins to the class system by adding callback function
