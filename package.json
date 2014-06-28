@@ -4,9 +4,9 @@
   "keywords": [ 
     "class",
     "Class",
-    "mixin"
-    "statics"
-    "properties"
+    "mixin",
+    "statics",
+    "properties",
     "constructor",
     "prototype",
     "inheritance",
