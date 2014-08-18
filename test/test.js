@@ -6,8 +6,8 @@ var should = require('chai').should(),
 
 chai.use(sinonChai);
 
-
 describe('Class', function () {
+
     describe('create first class', function () {
 
         it('should crate class with empty constructor', function () {
@@ -122,7 +122,6 @@ describe('Class', function () {
                 }
             });
 
-
             var Cube = Class.define({
 
                 $config: {
@@ -150,7 +149,6 @@ describe('Class', function () {
             cube.volume().should.equal(125);
         });
     });
-
 
     describe('create third class call parent methods test', function () {
 
@@ -180,7 +178,6 @@ describe('Class', function () {
 
                     this.callParent(side, side);
 
-
                 },
 
                 area: function () {
@@ -188,7 +185,6 @@ describe('Class', function () {
                     return  this.multi * this.callParent()
                 }
             });
-
 
             var Cube = Class.define({
 
@@ -239,7 +235,6 @@ describe('Class', function () {
                     return this.width * this.height;
                 }
             });
-
 
             Rectangle.MIN_SIDE.should.equal(1);
 
@@ -306,7 +301,6 @@ describe('Class', function () {
                     extends: Events
                 },
 
-
                 area: function () {
 
                     return 1;
@@ -319,7 +313,6 @@ describe('Class', function () {
 
         });
     });
-
 
     describe('create 2 class with overrides', function () {
 
@@ -345,7 +338,6 @@ describe('Class', function () {
                 $config: {
                     extends: Events
                 },
-
 
                 area: function () {
 
@@ -422,7 +414,6 @@ describe('Class', function () {
         });
     });
 
-
     describe('create 2 classes from inherit', function () {
         it('should 2 different classes', function () {
 
@@ -452,10 +443,8 @@ describe('Class', function () {
                 }
             });
 
-
             var long = new Long("AAPL", 5);
             var short = new Short("GOOG", 2);
-
 
             long.symbol.should.equal("AAPL");
             short.symbol.should.equal("GOOG");
@@ -464,7 +453,6 @@ describe('Class', function () {
             short.amount.should.equal(2);
         });
     });
-
 
     describe('namespace', function () {
         it('should create namespace and constractor name', function () {
@@ -508,7 +496,6 @@ describe('Class', function () {
             GLOBAL.Test.Position.Long = null;
         });
 
-
         it('should have contractor name', function () {
 
             var Position = Class.define({
@@ -541,7 +528,6 @@ describe('Class', function () {
                     this.callParent(symbol, amount, 2);
                 }
             });
-
 
             var short = new Short();
             var long = new Long();
@@ -598,7 +584,8 @@ describe('Class', function () {
     });
 
     describe('properties', function () {
-        it('should create properties', function () {
+
+        it('should create properties via array notation', function () {
 
             var Position = Class.define({
 
@@ -633,14 +620,137 @@ describe('Class', function () {
 
             position.symbol.should.be.eql("GOOG");
 
-            position.numberOfGetCalles.should.be.eql(2)
-            position.numberOfSetCalles.should.be.eql(1)
-
+            position.numberOfGetCalles.should.be.eql(2);
+            position.numberOfSetCalles.should.be.eql(1);
 
         });
 
+        it('should create properties via object notation (auto)', function () {
 
-        it('should trow error when propery not implemented', function () {
+            var Position = Class.define({
+
+                $config: {
+                    members: {
+                        symbol: 'auto'
+                    }
+                },
+
+                constructor: function (symbol, amount, side) {
+                    this._symbol = symbol;
+                    this.amount = amount;
+                    this.side = side;
+
+                    this.numberOfSetCalles = 0;
+                    this.numberOfGetCalles = 0;
+                },
+
+                getSymbol: function () {
+                    this.numberOfGetCalles++;
+                    return this._symbol;
+                },
+
+                setSymbol: function (value) {
+                    this._symbol = value;
+                    this.numberOfSetCalles++
+                }
+            });
+
+            var position = new Position("aapl");
+
+            position.symbol.should.be.eql("aapl");
+
+            position.symbol = "GOOG";
+
+            position.symbol.should.be.eql("GOOG");
+
+            position.numberOfGetCalles.should.be.eql(2)
+            position.numberOfSetCalles.should.be.eql(1)
+
+        });
+
+        it('should create properties via object notation (get & set)', function () {
+
+            var Position = Class.define({
+
+                $config: {
+                    members: {
+                        price: { get: 'getRandomOrFixedPrice', set: 'setFixedPrice' }
+                    }
+                },
+
+                constructor: function (symbol, amount, side) {
+                    this.symbol = symbol;
+                    this.amount = amount;
+                    this.side = side;
+
+                    this._price = null;
+
+                    this.numberOfSetCalles = 0;
+                    this.numberOfGetCalles = 0;
+                },
+
+                getRandomOrFixedPrice: function () {
+                    this.numberOfGetCalles++;
+                    return this._price || Math.floor((Math.random() * 10) + 1);
+                },
+
+                setFixedPrice: function (value) {
+                    this._price = value;
+                    this.numberOfSetCalles++
+                }
+            });
+
+            var position = new Position("aapl");
+
+            position.price.should.be.within(1, 10);
+
+            position.price = 25;
+
+            position.price.should.be.eql(25);
+
+            position.numberOfGetCalles.should.be.eql(2);
+            position.numberOfSetCalles.should.be.eql(1);
+        });
+
+        it('should trow error when property not implemented via object notation', function () {
+
+            var Position = Class.define({
+
+                $config: {
+                    members: {
+                        symbol: 'auto',
+                        price: { get: 'getMyPrice' }
+                    }
+                },
+
+                constructor: function (symbol, amount, side) {
+                    this._symbol = symbol;
+                    this.amount = amount;
+                    this.side = side;
+                }
+            });
+
+            var position = new Position("aapl");
+
+            (function () {
+                var symbol = position.symbol;
+            }).should.throw("not implemented getSymbol");
+
+            (function () {
+                position.symbol = "GOOG"
+            }).should.throw("not implemented setSymbol");
+
+            (function () {
+                var price = position.price;
+            }).should.throw("not implemented getMyPrice");
+
+            (function () {
+                position.price = 25
+            }).should.throw("not implemented undefined");
+
+        });
+
+        it('should trow error when property not implemented via array notation', function () {
 
             var Position = Class.define({
 
@@ -657,16 +767,15 @@ describe('Class', function () {
 
             var position = new Position("aapl");
 
-            (function() {
+            (function () {
                 var symbol = position.symbol;
             }).should.throw("not implemented getSymbol");
 
-            (function() {
+            (function () {
                 position.symbol = "GOOG"
             }).should.throw("not implemented setSymbol");
 
         });
-
 
     });
 
