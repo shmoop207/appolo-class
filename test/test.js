@@ -670,5 +670,55 @@ describe('Class', function () {
 
     });
 
+    describe('toString', function () {
+
+        it('should return valid  constructor toString', function () {
+
+            var Position = Class.define({
+
+                $config: {
+                    members: ['symbol']
+                },
+
+                constructor: function (symbol) {
+
+                    this._symbol = symbol;
+                }
+
+            })
+
+            var position = new Position("aapl");
+
+            position.constructor.toString().should.be.eq("function (symbol) {\n\n                    this._symbol = symbol;\n                }");
+
+
+        })
+
+        it('should return valid method toString', function () {
+
+            var Position = Class.define({
+
+                $config: {
+                    members: ['symbol']
+                },
+
+                constructor: function (symbol) {
+                    this._symbol = symbol;
+                },
+
+                setSymbol: function (symbol) {
+
+                    this._symbol = symbol;
+                }
+            })
+
+            var position = new Position("aapl");
+
+            position.setSymbol.toString().should.be.eq("function (symbol) {\n\n                    this._symbol = symbol;\n                }");
+
+
+        })
+    });
+
 
 });
