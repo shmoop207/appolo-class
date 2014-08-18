@@ -779,55 +779,55 @@ describe('Class', function () {
 
     });
 
-    describe('toString', function () {
+    describe('type references', function () {
 
-        it('should return valid  constructor toString', function () {
-
-            var Position = Class.define({
-
-                $config: {
-                    members: ['symbol']
-                },
-
-                constructor: function (symbol) {
-
-                    this._symbol = symbol;
-                }
-
-            })
-
-            var position = new Position("aapl");
-
-            position.constructor.toString().should.be.eq("function (symbol) {\n\n                    this._symbol = symbol;\n                }");
-
-
-        })
-
-        it('should return valid method toString', function () {
+        it('should be same type references', function () {
 
             var Position = Class.define({
-
                 $config: {
-                    members: ['symbol']
+                    name: "Position"
                 },
 
-                constructor: function (symbol) {
-                    this._symbol = symbol;
-                },
-
-                setSymbol: function (symbol) {
-
-                    this._symbol = symbol;
+                constructor: function (symbol, amount, side) {
+                    this.symbol = symbol;
+                    this.amount = amount;
+                    this.side = side;
                 }
-            })
+            });
 
-            var position = new Position("aapl");
+            var Long = Class.define({
+                $config: {
+                    name: "Long",
+                    extends: Position
+                },
 
-            position.setSymbol.toString().should.be.eq("function (symbol) {\n\n                    this._symbol = symbol;\n                }");
+                constructor: function (symbol, amount) {
+                    this.callParent(symbol, amount, 2);
+                }
+            });
 
+            var Short = Class.define({
+                $config: {
+                    name: "Short",
+                    extends: Position
+                },
+                constructor: function (symbol, amount) {
+                    this.callParent(symbol, amount, 2);
+                }
+            });
 
-        })
+            var dict = {};
+
+            dict[Position] = 'a';
+            dict[Long] = 'b';
+            dict[Short] = 'c';
+
+            dict[new Position().constructor].should.be.eq('a');
+            dict[new Long().constructor].should.be.eq('b');
+            dict[new Short().constructor].should.be.eq('c');
+
+        });
+
     });
-
 
 });
