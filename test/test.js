@@ -779,6 +779,79 @@ describe('Class', function () {
 
     });
 
+
+    describe('toString', function () {
+
+        xit('should return valid  constructor toString', function () {
+
+            var Position = Class.define({
+
+                $config: {
+                    members: ['symbol']
+                },
+
+                constructor: function (symbol) {
+
+                    this._symbol = symbol;
+                }
+
+            })
+
+            var position = new Position("aapl");
+
+            position.constructor.toString().should.be.eq("function (symbol) {\n\n                    this._symbol = symbol;\n                }");
+
+        })
+
+        xit('should return valid  constructor name toString', function () {
+
+            var Position = Class.define({
+
+                $config: {
+                    name:'test',
+                    members: ['symbol']
+                },
+
+                constructor: function (symbol) {
+
+                    this._symbol = symbol;
+                }
+
+            })
+
+            var position = new Position("aapl");
+
+            position.constructor.toString().should.be.eq("function (symbol) {\n\n                    this._symbol = symbol;\n                }");
+
+        })
+
+        it('should return valid method toString', function () {
+
+            var Position = Class.define({
+
+                $config: {
+                    members: ['symbol']
+                },
+
+                constructor: function (symbol) {
+                    this._symbol = symbol;
+                },
+
+                setSymbol: function (symbol) {
+
+                    this._symbol = symbol;
+                }
+            })
+
+            var position = new Position("aapl");
+
+            position.setSymbol.toString().should.be.eq("function (symbol) {\n\n                    this._symbol = symbol;\n                }");
+
+
+        })
+    });
+
+
     describe('type references', function () {
 
         it('should be same type references', function () {
