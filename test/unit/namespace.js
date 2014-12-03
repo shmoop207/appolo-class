@@ -155,7 +155,7 @@ describe('namespace', function () {
         GLOBAL.Test.Mock.LongPosition = null;
         GLOBAL.Test.Mock.Position = null;
 
-        Class.usetAutoGenerateNamsesapce = false;
+        Class.autoGenerateNamsesapce = false;
     });
 
 
