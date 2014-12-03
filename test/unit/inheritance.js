@@ -402,14 +402,14 @@ describe('inheritance',function(){
 
             var dict = {};
 
-            dict[Position] = 'a';
-            dict[Long] = 'b';
-            dict[Short] = 'c';
+            dict[Position.name] = 'a';
+            dict[Long.name] = 'b';
+            dict[Short.name] = 'c';
 
 
-            dict[new Position().constructor].should.be.eq('a');
-            dict[new Long().constructor].should.be.eq('b');
-            dict[new Short().constructor].should.be.eq('c');
+            dict[new Position().constructor.name].should.be.eq('a');
+            dict[new Long().constructor.name].should.be.eq('b');
+            dict[new Short().constructor.name].should.be.eq('c');
 
         });
 

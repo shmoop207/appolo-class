@@ -26,7 +26,7 @@ describe('toString', function () {
 
         var position = new Position("aapl");
 
-        position.constructor.toString(true).should.be.eq("function (symbol) {\n                this._symbol = symbol;\n            }");
+        position.constructor.toString().should.be.eq("function (symbol) {\n                this._symbol = symbol;\n            }");
 
     })
 
