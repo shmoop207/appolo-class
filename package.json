@@ -35,10 +35,10 @@
     "lodash": "2.4.1"
   },
   "devDependencies": {
-    "chai": "1.8.1",
+    "chai": "1.10.0",
     "grunt": "*",
-    "grunt-mocha-test": "0.8.1",
-    "sinon": "^1.10.2",
-    "sinon-chai": "^2.5.0"
+    "grunt-mocha-test": "0.12.4",
+    "sinon": "^1.12.1",
+    "sinon-chai": "^2.6.0"
   }
 }
