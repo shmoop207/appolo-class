@@ -359,9 +359,13 @@ describe('inheritance',function(){
 
         it('should be same type references', function () {
 
+
+
             var Position = Class.define({
+
                 $config: {
                     name: "Position"
+
                 },
 
                 constructor: function (symbol, amount, side) {
@@ -372,9 +376,11 @@ describe('inheritance',function(){
             });
 
             var Long = Class.define({
+
                 $config: {
                     name: "Long",
                     extends: Position
+
                 },
 
                 constructor: function (symbol, amount) {
@@ -383,9 +389,11 @@ describe('inheritance',function(){
             });
 
             var Short = Class.define({
+
                 $config: {
                     name: "Short",
                     extends: Position
+
                 },
                 constructor: function (symbol, amount) {
                     this.callParent(symbol, amount, 2);
@@ -397,6 +405,7 @@ describe('inheritance',function(){
             dict[Position] = 'a';
             dict[Long] = 'b';
             dict[Short] = 'c';
+
 
             dict[new Position().constructor].should.be.eq('a');
             dict[new Long().constructor].should.be.eq('b');
