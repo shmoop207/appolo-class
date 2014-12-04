@@ -14,7 +14,6 @@ describe('toString', function () {
         var Position = Class.define({
 
             $config: {
-                name:'test',
                 members: ['symbol']
             },
 
@@ -27,6 +26,27 @@ describe('toString', function () {
         var position = new Position("aapl");
 
         position.constructor.toString().should.be.eq("function (symbol) {\n                this._symbol = symbol;\n            }");
+
+    })
+
+    it('should return valid  constructor with name toString', function () {
+
+        var Position = Class.define({
+
+            $config: {
+                name:'test',
+                members: ['symbol']
+            },
+
+            constructor: function (symbol) {
+                this._symbol = symbol;
+            }
+
+        })
+
+        var position = new Position("aapl");
+
+        position.constructor.toString().should.be.eq("function test (symbol) {\n                this._symbol = symbol;\n            }");
 
     })
 
