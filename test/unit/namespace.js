@@ -137,7 +137,7 @@ describe('namespace', function () {
 
     it('should have create namespace from auto', function () {
 
-        Class.autoGenerateNamsesapce = true;
+        Class.autoGenerateNamespace = true;
 
        require('./../mock/position')
        require('./../mock/long_position')
@@ -155,7 +155,7 @@ describe('namespace', function () {
         GLOBAL.Test.Mock.LongPosition = null;
         GLOBAL.Test.Mock.Position = null;
 
-        Class.autoGenerateNamsesapce = false;
+        Class.autoGenerateNamespace = false;
     });
 
 
